@@ -15,12 +15,12 @@
 
 ## Reviewed material
 
-https://en.wikipedia.org/wiki/Lossless_compression
-https://en.wikipedia.org/wiki/Huffman_coding
-https://www.geeksforgeeks.org/huffman-coding-greedy-algo-3/
-https://en.wikipedia.org/wiki/LZ77_and_LZ78
-https://www.cs.helsinki.fi/group/pads/lz77.html
-https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-wusp/fb98aa28-5cd7-407f-8869-a6cef1ff1ccb
+- https://en.wikipedia.org/wiki/Lossless_compression
+- https://en.wikipedia.org/wiki/Huffman_coding
+- https://www.geeksforgeeks.org/huffman-coding-greedy-algo-3/
+- https://en.wikipedia.org/wiki/LZ77_and_LZ78
+- https://www.cs.helsinki.fi/group/pads/lz77.html
+- https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-wusp/fb98aa28-5cd7-407f-8869-a6cef1ff1ccb
 
 # Other
 - Study program: Tietojenkäsittelytieteen kandiohjelma
