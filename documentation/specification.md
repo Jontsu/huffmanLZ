@@ -1,7 +1,7 @@
 # Huffman and Lempel-Ziv
 
 ## Project Description
-- This project is an implementation and comparison of Huffman and Lempel-Ziv LZ77 compression algorithms
+- This project is an implementation and comparison of Huffman and LZW compression algorithms
 - Inputs are text or data files and outputs are their compressed versions
 - Aim is to achieve compression rates of at least 40% to 60%
 - Project is written in Python and the project language is English
