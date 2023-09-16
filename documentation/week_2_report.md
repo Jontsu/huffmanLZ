@@ -1,0 +1,5 @@
+This week I created initial implementations of Huffman and LZW for text. I took inspiration from https://www.geeksforgeeks.org/huffman-coding-greedy-algo-3/, https://rosettacode.org/wiki/Huffman_coding and https://rosettacode.org/wiki/LZW_compression. After realising that my code was not easily extendable, especially for Huffman, I used chat.openai.com to review my code and provide suggestions to create it more modular (e.g. changed loop to match econded data to codes to Huffman tree for traversing, changed collections.defaultdict to collections.Counter, changed lzw to use StringIO to avoid loops, etc). Current implementation should be relatively easy to extend for binary data, read and write files (file i/o), adding metadata for decompression, etc.
+
+Next week I have very busy work schedule, so tried to get a good head start this week. Next week I will implement test coverage, implement efficiency test (need to move the efficiency calculations into a separate file) and look into creating a basic UI.
+
+## Hours: 19
