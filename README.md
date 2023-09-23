@@ -21,6 +21,7 @@ flask run
 ## Documentation
 
 ### [Project specification](documentation/specification.md)
+### [Testing documentation](documentation/testing.md)
 
 ## Weekly reports
 
