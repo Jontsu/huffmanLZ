@@ -5,7 +5,7 @@ import heapq
 class Node:
     def __init__(self, char, freq):
         """Initialise a node with character and its frequency.
-        
+
         Parameters:
         - char (str): The character the node represents.
         - freq (int): The frequency of the character in the data.
@@ -16,18 +16,18 @@ class Node:
         self.right = None
 
     def __lt__(self, other):
-        """Override the default behavior for the less than (<) 
-        operator to compare nodes based on frequency. Python doesn't know 
+        """Override the default behavior for the less than (<)
+        operator to compare nodes based on frequency. Python doesn't know
         how to order custom objects, so this helps to order the nodes."""
         return self.freq < other.freq
 
 
 def build_huffman_tree(data):
     """Build and return the Huffman Tree based on data frequencies.
-    
+
     Parameter:
     - data (str): The data to build the tree from.
-    
+
     Returns:
     - Node: The root of the Huffman Tree.
     """
@@ -48,7 +48,7 @@ def build_huffman_tree(data):
 
 def generate_huffman_codes(node, code, codes):
     """Recursively generate Huffman codes for characters.
-    
+
     Parameters:
     - node (Node): The current node.
     - code (str): The current Huffman code being generated.
@@ -58,7 +58,8 @@ def generate_huffman_codes(node, code, codes):
     # Check for non-existent branch
     if node is None:
         return
-    # Handle special case where the Huffman tree has only one node (data has only one unique character)
+    # Handle special case where the Huffman tree has only one node
+    # (data has only one unique character)
     if node.char is not None and not code:
         codes[node.char] = '0'
         return
@@ -73,10 +74,10 @@ def generate_huffman_codes(node, code, codes):
 
 def huffman_compress(data):
     """Return the compressed data and the Huffman codes used.
-    
+
     Parameter:
     - data (str): The data to compress.
-    
+
     Returns:
     - tuple (str, dict): The compressed data and the Huffman codes.
     """
@@ -88,11 +89,11 @@ def huffman_compress(data):
 
 def huffman_decompress(compressed_data, codes):
     """Decompress the data using the provided Huffman codes.
-    
+
     Parameters:
     - compressed_data (str): The compressed data.
     - codes (dict): The Huffman codes to use for decompression.
-    
+
     Returns:
     - str: The decompressed data.
     """

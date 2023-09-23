@@ -1,0 +1,7 @@
+As per the plan stipulated last week, I implemented a basic UI, created utility functions (skeleton for efficiency calculations), implemented test coverage and used Flake8 package to review code quality. The efficiency calculation and the compression implementation are not working fully yet or as expected, as the current implementation does not work with binary data or files in general (however, I made a workaround to test the UI with a .txt file).
+
+To create the UI, I used Python Flask. Test coverage is implemented with Python coverage package. All the information, including the test coverage statistics, is rendered in the index.html and displayed when you run the application. The readme file front page details the instructions on how to run the application. I used chat.openai.com to help figure out how to get the Python coverage package to run when the Flask application is started; this implementation still seems hack'ish to me, but given this is not the main focus of this course I decided not to worry about it too much.
+
+Next week, I will look to modify this into a binary implementation in order to attempt compressing actual files. I will also look into implementing my own data structures to reduce reliance on Python's premade data structures. For this, I would like to receive some pointers on the extent to which we should use our own data structures?
+
+## Hours: 10

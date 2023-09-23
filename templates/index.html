@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Compression Algorithms</title>
+</head>
+<body>
+    <h2>Upload a File</h2>
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="file">
+        <input type="submit" value="Upload">
+    </form>
+    <br>
+    <div>
+        Upload Status: {{ upload_status or 'No file uploaded' }},
+        Uploaded File: {{ uploaded_file or 'None' }}
+    </div>
+    <br>
+    <form action="/compress" method="post">
+        <input type="submit" value="Compress File">
+    </form>
+    <br>
+    {% if error %}
+        <div style="color: red;">{{ error }}</div>
+    {% endif %}
+
+    {% if results %}
+        <div>
+            <b>Integrity (decompressed data matches original)</b> <br>
+            Huffman Integrity: {{ 'Ok' if results.huffman_integrity else 'Fail' }} <br>
+            LZW Integrity: {{ 'Ok' if results.lzw_integrity else 'Fail' }} <br>
+            <br>
+            <b>Efficiency</b> <br>
+            Huffman Efficiency: {{ results.huffman_efficiency }} <br>
+            LZW Efficiency: {{ results.lzw_efficiency }}
+        </div>
+    {% endif %}
+    <br>
+    <div>
+        <iframe src="/coverage" width="400px""></iframe>
+    </div>
+</body>
+</html>

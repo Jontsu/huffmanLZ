@@ -3,10 +3,10 @@ from io import StringIO
 
 def lzw_compress(data):
     """Compress data using the LZW algorithm.
-    
+
     Parameter:
     - data (str): The data to be compressed.
-    
+
     Returns:
     - list[int]: List of integer codes representing the compressed data.
     """
@@ -32,10 +32,11 @@ def lzw_compress(data):
 
 def lzw_decompress(compressed_data):
     """Decompress LZW encoded data back to its original form.
-    
+
     Parameter:
-    - compressed_data list[int]: List of integer codes representing the compressed data.
-    
+    - compressed_data list[int]: List of integer codes representing the
+      compressed data.
+
     Returns:
     - str: The decompressed data.
     """

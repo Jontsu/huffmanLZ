@@ -4,14 +4,18 @@ Datastructures and Algorithms project. Current implementation works with text st
 
 ## Running the program
 
-Program can be run by typing the following command in the root of the project.
+This is optional, but it is a good idea to create a virtual environment prior to installing dependencies or running the application, so execute the following commands:
+
 ```bash
-python main.py
+python3 -m venv venv
+source venv/bin/activate
 ```
 
-Tests can be run by typing the following command in the root of the project.
+To install the necessary dependencies and start the development server, execute the following commands in your terminal. Make sure you are in the root directory of the application:
+
 ```bash
-python -m tests.test_compression_algorithms
+pip install -r requirements.txt
+flask run
 ```
 
 ## Documentation
@@ -22,3 +26,4 @@ python -m tests.test_compression_algorithms
 
 * [Weekly report #1](documentation/week_1_report.md)
 * [Weekly report #2](documentation/week_2_report.md)
+* [Weekly report #2](documentation/week_3_report.md)
