@@ -27,4 +27,4 @@ flask run
 
 * [Weekly report #1](documentation/week_1_report.md)
 * [Weekly report #2](documentation/week_2_report.md)
-* [Weekly report #2](documentation/week_3_report.md)
+* [Weekly report #3](documentation/week_3_report.md)
