@@ -21,6 +21,7 @@ flask run
 ## Documentation
 
 ### [Project specification](documentation/specification.md)
+### [Implementation documentation](documentation/implementation.md)
 ### [Testing documentation](documentation/testing.md)
 
 ## Weekly reports
@@ -28,3 +29,4 @@ flask run
 * [Weekly report #1](documentation/week_1_report.md)
 * [Weekly report #2](documentation/week_2_report.md)
 * [Weekly report #3](documentation/week_3_report.md)
+* [Weekly report #4](documentation/week_4_report.md)

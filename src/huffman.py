@@ -1,13 +1,15 @@
 from collections import Counter
 import heapq
 
+from src.utils import bits_to_bytes, bytes_to_bits
+
 
 class Node:
     def __init__(self, char, freq):
         """Initialise a node with character and its frequency.
 
         Parameters:
-        - char (str): The character the node represents.
+        - char (char): The character the node represents.
         - freq (int): The frequency of the character in the data.
         """
         self.char = char
@@ -26,7 +28,7 @@ def build_huffman_tree(data):
     """Build and return the Huffman Tree based on data frequencies.
 
     Parameter:
-    - data (str): The data to build the tree from.
+    - data (bytes): The data to build the tree from.
 
     Returns:
     - Node: The root of the Huffman Tree.
@@ -76,35 +78,39 @@ def huffman_compress(data):
     """Return the compressed data and the Huffman codes used.
 
     Parameter:
-    - data (str): The data to compress.
+    - data (bytes): The data to compress.
 
     Returns:
-    - tuple (str, dict): The compressed data and the Huffman codes.
+    - tuple (bytes, dict): The compressed data and the Huffman codes.
     """
     root = build_huffman_tree(data)
     codes = {}
     generate_huffman_codes(root, "", codes)
-    return ''.join([codes[char] for char in data]), codes
+    compressed_bits = ''.join(codes[byte] for byte in data)
+    compressed_data = bits_to_bytes(compressed_bits)
+    return compressed_data, codes
 
 
 def huffman_decompress(compressed_data, codes):
     """Decompress the data using the provided Huffman codes.
 
     Parameters:
-    - compressed_data (str): The compressed data.
+    - compressed_data (bytes): The compressed data.
     - codes (dict): The Huffman codes to use for decompression.
 
     Returns:
-    - str: The decompressed data.
+    - bytes: The decompressed data.
     """
+    compressed_bits = bytes_to_bits(compressed_data)
     reversed_codes = {value: key for key, value in codes.items()}
-    decompressed_data = ''
+    decompressed_data = []
     temp = ''
 
-    for bit in compressed_data:
+    for bit in compressed_bits:
         temp += bit
 
         if temp in reversed_codes:
-            decompressed_data += reversed_codes[temp]
+            decompressed_data.append(reversed_codes[temp])
             temp = ''
-    return decompressed_data
+
+    return bytes(decompressed_data)

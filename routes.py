@@ -19,9 +19,10 @@ def register_routes(app, cov):
     def upload_file_route():
         file = request.files['file']
         if file:
-            # temporary solution for UI testing until binary solution is implemented
-            file_data = file.read().decode('utf-8', errors='replace') # temporary
-            session['file_data'] = file_data # temporary
+            # Read the file as bytes
+            file_data = file.read()
+            # Store as hex string to ensure integrity in session
+            session['file_data'] = file_data.hex()
             session['upload_status'] = 'Upload complete'
             session['uploaded_file'] = file.filename
         else:
@@ -30,14 +31,16 @@ def register_routes(app, cov):
                              
     @app.route('/compress', methods=['POST'])
     def compress_file():
-        file_data = session.get('file_data')
+        hex_data = session.get('file_data')
         error = None
         results = None
 
-        if not file_data:
+        if not hex_data:
             error = "File upload failed or no file has been uploaded"
         else:
             try:
+                # Convert hex strings back to bytes for processing
+                file_data = bytes.fromhex(hex_data)
                 huffman_compressed, huffman_codes = huffman_compress(file_data)
                 lzw_compressed = lzw_compress(file_data)
 
@@ -50,11 +53,18 @@ def register_routes(app, cov):
                 huffman_efficiency = calculate_efficiency(file_data, huffman_compressed)
                 lzw_efficiency = calculate_efficiency(file_data, lzw_compressed)
 
+                original_size = len(file_data)
+                huffman_compressed_size = len(huffman_compressed)
+                lzw_compressed_size = len(lzw_compressed)
+
                 results = {
                     'huffman_integrity': huffman_integrity,
                     'lzw_integrity': lzw_integrity,
                     'huffman_efficiency': huffman_efficiency,
-                    'lzw_efficiency': lzw_efficiency
+                    'lzw_efficiency': lzw_efficiency,
+                    'original_size': original_size,
+                    'huffman_compressed_size': huffman_compressed_size,
+                    'lzw_compressed_size': lzw_compressed_size,
                 }
             except Exception as e:
                 error = f"Error occurred: {str(e)}"
