@@ -24,8 +24,12 @@ def lzw_compress(data):
         else:
             compressed_data.append(dictionary[current_string])
 
-            # Limit dictionary size to ensure dictionary does not grow
-            # indefinitely causing performance and integrity issues
+            # limit dictionary size to an arbitrary maximum of 2^12 - 1 entries
+            # simplifies both the compression and decompression processes
+            # also ensures dictionary does not grow indefinitely potentially
+            # causing performance and integrity issues
+            # also ensures each code can be uniquely represented with
+            # fixed bit width (12 bits in this implementation)
             if len(dictionary) < 2**12 - 1:
                 dictionary[combined_string] = len(dictionary)
 
@@ -34,12 +38,12 @@ def lzw_compress(data):
     if current_string:
         compressed_data.append(dictionary[current_string])
 
-    # Use 12 bits for each code
-    compressed_bits = (
-        ''.join([format(code, '012b') for code in compressed_data])
-    )
-    compressed_bytes = bits_to_bytes(compressed_bits)
-    return compressed_bytes
+    # convert each LZW code into a fixed width 12 bit binary representation
+    # choice of bits corresponds to the maximum dictionary size of 2^12
+    # allows one-to-one mapping between codes and their 12 bit representations
+    compressed_bits = ''.join(f'{code:012b}' for code in compressed_data)
+    no_of_padding_bits, compressed_bytes = bits_to_bytes(compressed_bits)
+    return bytes([no_of_padding_bits]) + compressed_bytes
 
 
 def lzw_decompress(compressed_data):
@@ -52,7 +56,8 @@ def lzw_decompress(compressed_data):
     Returns:
     - str: The decompressed data.
     """
-    compressed_bits = bytes_to_bits(compressed_data)
+    no_of_padding_bits = compressed_data[0]
+    compressed_bits = bytes_to_bits(no_of_padding_bits, compressed_data[1:])
     # Initialise dictionary and map codes to single-byte sequences
     dictionary = {i: bytes([i]) for i in range(256)}
     decompressed_data = bytearray()
@@ -80,8 +85,12 @@ def lzw_decompress(compressed_data):
         # Extend decompressed data with the obtained string
         decompressed_data.extend(current_string)
 
-        # Limit dictionary size to ensure dictionary does not grow
-        # indefinitely causing performance and integrity issues
+        # limit dictionary size to an arbitrary maximum of 2^12 - 1 entries
+        # simplifies both the compression and decompression processes
+        # also ensures dictionary does not grow indefinitely potentially
+        # causing performance and integrity issues
+        # also ensures each code can be uniquely represented with
+        # fixed bit width (12 bits in this implementation)
         if len(dictionary) < 2**12 - 1:
             dictionary[len(dictionary)] = previous_string + current_string[:1]
 

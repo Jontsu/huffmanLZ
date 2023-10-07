@@ -34,7 +34,7 @@ def build_huffman_tree(data):
     - Node: The root of the Huffman Tree.
     """
     freq = Counter(data)
-    heap = [Node(char, freq) for char, freq in freq.items()]
+    heap = [Node(bytes([char]), freq[char]) for char in freq]
     heapq.heapify(heap)
 
     while len(heap) > 1:
@@ -62,7 +62,7 @@ def generate_huffman_codes(node, code, codes):
         return
     # Handle special case where the Huffman tree has only one node
     # (data has only one unique character)
-    if node.char is not None and not code:
+    if node.char and len(node.char) == 1 and not code:
         codes[node.char] = '0'
         return
     # Store the Huffman code for the given character in the dictionary
@@ -86,9 +86,9 @@ def huffman_compress(data):
     root = build_huffman_tree(data)
     codes = {}
     generate_huffman_codes(root, "", codes)
-    compressed_bits = ''.join(codes[byte] for byte in data)
-    compressed_data = bits_to_bytes(compressed_bits)
-    return compressed_data, codes
+    compressed_bits = ''.join(codes[bytes([byte])] for byte in data)
+    no_of_padding_bits, compressed_data = bits_to_bytes(compressed_bits)
+    return bytes([no_of_padding_bits]) + compressed_data, codes
 
 
 def huffman_decompress(compressed_data, codes):
@@ -101,16 +101,17 @@ def huffman_decompress(compressed_data, codes):
     Returns:
     - bytes: The decompressed data.
     """
-    compressed_bits = bytes_to_bits(compressed_data)
+    no_of_padding_bits = compressed_data[0]
+    compressed_bits = bytes_to_bits(no_of_padding_bits, compressed_data[1:])
     reversed_codes = {value: key for key, value in codes.items()}
-    decompressed_data = []
+    decompressed_data = bytearray()
     temp = ''
 
     for bit in compressed_bits:
         temp += bit
 
         if temp in reversed_codes:
-            decompressed_data.append(reversed_codes[temp])
+            decompressed_data.extend(reversed_codes[temp])
             temp = ''
 
     return bytes(decompressed_data)
