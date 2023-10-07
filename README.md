@@ -1,6 +1,6 @@
 # HuffmanLZW
 
-Datastructures and Algorithms project. Current implementation works with text strings.
+Datastructures and Algorithms project: implementation and comparison of Huffman and LZW compression algorithms
 
 ## Running the program
 
