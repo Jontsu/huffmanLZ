@@ -31,3 +31,4 @@ flask run
 * [Weekly report #3](documentation/week_3_report.md)
 * [Weekly report #4](documentation/week_4_report.md)
 * [Weekly report #5](documentation/week_5_report.md)
+* [Weekly report #6](documentation/week_5_report.md)

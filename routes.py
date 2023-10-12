@@ -1,13 +1,18 @@
-from flask import render_template, request, session, redirect, url_for, send_from_directory
-
+import os
 import unittest
+from os.path import getsize
+
+from flask import render_template, request, session, redirect, url_for, send_from_directory
 
 from src.huffman import huffman_compress, huffman_decompress
 from src.lzw import lzw_compress, lzw_decompress
 from src.utils import calculate_efficiency
 
+ASSETS_FOLDER = 'assets'
+
 
 def register_routes(app, cov):
+    app.config['ASSETS_FOLDER'] = ASSETS_FOLDER
 
     @app.route('/')
     def index_route():
@@ -19,10 +24,9 @@ def register_routes(app, cov):
     def upload_file_route():
         file = request.files['file']
         if file:
-            # Read the file as bytes
-            file_data = file.read()
-            # Store as hex string to ensure integrity in session
-            session['file_data'] = file_data.hex()
+            filepath = os.path.join(app.config['ASSETS_FOLDER'], file.filename)
+            file.save(filepath)
+            session['file_path'] = filepath
             session['upload_status'] = 'Upload complete'
             session['uploaded_file'] = file.filename
         else:
@@ -31,31 +35,48 @@ def register_routes(app, cov):
                              
     @app.route('/compress', methods=['POST'])
     def compress_file():
-        hex_data = session.get('file_data')
+        filepath = session.get('file_path')
         error = None
         results = None
 
-        if not hex_data:
+        if not filepath:
             error = "File upload failed or no file has been uploaded"
         else:
             try:
-                # Convert hex strings back to bytes for processing
-                file_data = bytes.fromhex(hex_data)
+                # Load the file to be compressed from disk
+                with open(filepath, 'rb') as f:
+                    file_data = f.read()
+
+                # Compress the file with both algorithms
                 huffman_compressed, huffman_codes = huffman_compress(file_data)
                 lzw_compressed = lzw_compress(file_data)
 
+                # Create filepath names for compressed files
+                huffman_filepath = filepath + '_huffman_compressed'
+                lzw_filepath = filepath + '_lzw_compressed'
+
+                # Save compressed files to disk
+                with open(huffman_filepath, 'wb') as f:
+                    f.write(huffman_compressed)
+                with open(lzw_filepath, 'wb') as f:
+                    f.write(lzw_compressed)
+
+                # Decompress the compressed files for integrity check
                 huffman_decompressed = huffman_decompress(huffman_compressed, huffman_codes)
                 lzw_decompressed = lzw_decompress(lzw_compressed)
 
+                # Check that  original file data matches decompressed file data
                 huffman_integrity = huffman_decompressed == file_data
                 lzw_integrity = lzw_decompressed == file_data
 
-                huffman_efficiency = calculate_efficiency(file_data, huffman_compressed)
-                lzw_efficiency = calculate_efficiency(file_data, lzw_compressed)
+                # Use os getsize method to get file sizes
+                original_size = getsize(filepath)
+                huffman_compressed_size = getsize(huffman_filepath)
+                lzw_compressed_size = getsize(lzw_filepath)
 
-                original_size = len(file_data)
-                huffman_compressed_size = len(huffman_compressed)
-                lzw_compressed_size = len(lzw_compressed)
+                # Calculate how efficiently the algorimths compressed the files
+                huffman_efficiency = calculate_efficiency(original_size, huffman_compressed_size)
+                lzw_efficiency = calculate_efficiency(original_size, lzw_compressed_size)
 
                 results = {
                     'huffman_integrity': huffman_integrity,
