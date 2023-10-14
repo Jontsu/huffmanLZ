@@ -9,10 +9,10 @@ def get_next_code(compressed_bits, bit_index):
     return code, bit_index
 
 def initialise_dictionary(algorithm_mode):
-    """Initialise the dictionary f....
+    """Initialise the dictionary for compression or decompression.
     
     Parameters:
-    - ...: Either 'compress' or 'decompress'.
+    - mode (string): Either 'compress' or 'decompress'.
     
     Returns:
     dict: The initialised dictionary.
