@@ -8,7 +8,7 @@ class TestLZWAlgorithm(unittest.TestCase):
 
     def test_get_next_code(self):
         compressed_bits = "01010101010101010101"
-        code, bit_index = get_next_code(compressed_bits, 0)
+        code, bit_index = get_next_code(compressed_bits, 0, 24)
         self.assertEqual(code, 1365)
         self.assertEqual(bit_index, 12)
 

@@ -1,9 +1,17 @@
-from src.utils import bits_to_bytes, bytes_to_bits
+from src.utils import bits_to_bytes, bytes_to_bits  # pragma: no cover
 
 
-def get_next_code(compressed_bits, bit_index):
-    """Retrieve the next code from the compressed bit string."""
-    bit_length = 12
+def get_next_code(compressed_bits, bit_index, bit_length):
+    """Retrieve the next code from the compressed bit string.
+
+    Parameters:
+    - compressed_bits (str): Compressed data as a string of bits.
+    - bit_index (int): The index to start extracting the code from.
+
+    Returns:
+    - tuple: The next code and the new bit index.
+    """
+    # bit_length = 12
     code = int(compressed_bits[bit_index:bit_index+bit_length], 2)
     bit_index += bit_length
     return code, bit_index
@@ -38,7 +46,7 @@ def add_to_size_limited_dictionary(dictionary, key, value, limit=2**12 - 1):
     if len(dictionary) < limit:
         dictionary[key] = value
 
-def lzw_compress(data):
+def lzw_compress(data, bit_length=12):
     """Compress data using the LZW algorithm.
 
     Parameter:
@@ -71,7 +79,7 @@ def lzw_compress(data):
     no_of_padding_bits, compressed_bytes = bits_to_bytes(compressed_bits)
     return bytes([no_of_padding_bits]) + compressed_bytes
 
-def lzw_decompress(compressed_data):
+def lzw_decompress(compressed_data, bit_length=12):
     """Decompress LZW encoded data back to its original form.
 
     Parameter:
@@ -87,12 +95,12 @@ def lzw_decompress(compressed_data):
     decompressed_data = bytearray()
     bit_index = 0
 
-    previous_code, bit_index = get_next_code(compressed_bits, bit_index)
+    previous_code, bit_index = get_next_code(compressed_bits, bit_index, bit_length)
     decompressed_data.extend(dictionary[previous_code])
     previous_string = dictionary[previous_code]
 
     while bit_index < len(compressed_bits):
-        code, bit_index = get_next_code(compressed_bits, bit_index)
+        code, bit_index = get_next_code(compressed_bits, bit_index, bit_length)
 
         if code in dictionary:
             current_string = dictionary[code]

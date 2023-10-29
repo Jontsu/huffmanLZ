@@ -1,7 +1,7 @@
-from collections import Counter
-import heapq
+from collections import Counter  # pragma: no cover
+import heapq  # pragma: no cover
 
-from src.utils import bits_to_bytes, bytes_to_bits
+from src.utils import bits_to_bytes, bytes_to_bits  # pragma: no cover
 
 
 class Node:

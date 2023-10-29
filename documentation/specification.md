@@ -1,4 +1,4 @@
-# Huffman and Lempel-Ziv
+# Huffman and Lempel-Ziv-Welch (LZW)
 
 ## Project Description
 - This project is an implementation and comparison of Huffman and LZW compression algorithms

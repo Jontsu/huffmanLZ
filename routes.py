@@ -49,7 +49,7 @@ def register_routes(app, cov):
 
                 # Compress the file with both algorithms
                 huffman_compressed, huffman_codes = huffman_compress(file_data)
-                lzw_compressed = lzw_compress(file_data)
+                lzw_compressed = lzw_compress(file_data, 24)
 
                 # Create filepath names for compressed files
                 huffman_filepath = filepath + '_huffman_compressed'
@@ -63,7 +63,7 @@ def register_routes(app, cov):
 
                 # Decompress the compressed files for integrity check
                 huffman_decompressed = huffman_decompress(huffman_compressed, huffman_codes)
-                lzw_decompressed = lzw_decompress(lzw_compressed)
+                lzw_decompressed = lzw_decompress(lzw_compressed, 24)
 
                 # Check that  original file data matches decompressed file data
                 huffman_integrity = huffman_decompressed == file_data
