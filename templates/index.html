@@ -29,7 +29,7 @@
             Huffman Integrity: {{ 'Ok' if results.huffman_integrity else 'Fail' }} <br>
             LZW Integrity: {{ 'Ok' if results.lzw_integrity else 'Fail' }} <br>
             <br>
-            <b>Efficiency</b> <br>
+            <b>Efficiency (percentage by which the original size has been reduced after compression)</b> <br>
             Huffman Efficiency: {{ results.huffman_efficiency }} <br>
             LZW Efficiency: {{ results.lzw_efficiency }} <br>
             <b>File Sizes (bytes)</b> <br>
@@ -39,8 +39,5 @@
         </div>
     {% endif %}
     <br>
-    <div>
-        <iframe src="/coverage" width="400px""></iframe>
-    </div>
 </body>
 </html>

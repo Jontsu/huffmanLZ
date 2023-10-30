@@ -1,10 +1,8 @@
 import os
-import unittest
 from os.path import getsize
 
 from flask import (
-    render_template, request, session, redirect,
-    url_for, send_from_directory
+    render_template, request, session, redirect, url_for
 )
 
 from src.huffman import huffman_compress, huffman_decompress
@@ -14,7 +12,7 @@ from src.utils import calculate_efficiency
 ASSETS_FOLDER = 'assets'
 
 
-def register_routes(app, cov):
+def register_routes(app):
     app.config['ASSETS_FOLDER'] = ASSETS_FOLDER
 
     @app.route('/')
@@ -101,17 +99,3 @@ def register_routes(app, cov):
                 error = f"Error occurred: {str(e)}"
 
         return render_template('index.html', error=error, results=results)
-
-    @app.route('/coverage')
-    def test_coverage_route():
-        # Run unit tests
-        test_loader = unittest.TestLoader()
-        test_suite = test_loader.discover('tests')
-        test_runner = unittest.TextTestRunner()
-        test_runner.run(test_suite)
-
-        # Generate test coverage report
-        cov.stop()
-        cov.save()
-        cov.html_report()
-        return send_from_directory('htmlcov', 'index.html')

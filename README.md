@@ -18,6 +18,8 @@ pip install -r requirements.txt
 flask run
 ```
 
+Please note that this program does not handle error cases from unexpected user behaviour. For example, the program assumes that the uploaded file is not empty.
+
 ## Documentation
 
 ### [Project specification](documentation/specification.md)
@@ -31,4 +33,5 @@ flask run
 * [Weekly report #3](documentation/week_3_report.md)
 * [Weekly report #4](documentation/week_4_report.md)
 * [Weekly report #5](documentation/week_5_report.md)
-* [Weekly report #6](documentation/week_5_report.md)
+* [Weekly report #6](documentation/week_6_report.md)
+* [Final report](documentation/final_report.md)

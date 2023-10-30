@@ -1,6 +1,8 @@
 ## Unit tests
 
-Unit tests have been implemeneted using Python's unittest unit testing framework. Test coverage and branch coverage has been implemented using Python's coverage package. Test coverage can be found on the front page of the application when you run it. I have only written tests for the files that relate to the algorithms. I have not written tests for files that relate to the UI. Current test coverage is 39% and branch coverage is 51%.
+Test and branch coverage stands at 100%.
+
+Unit tests have been implemeneted using Python's unittest unit testing framework. Test coverage and branch coverage has been implemented using Python's coverage package. I have only written tests for the files that relate to the algorithms. I have not written tests for files that relate to the UI.
 
 Unit tests and test coverage can be ran from terminal with commands
 
