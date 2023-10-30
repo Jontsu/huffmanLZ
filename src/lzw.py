@@ -48,7 +48,7 @@ def lzw_compress(data, dictionary_size=65536):
 
     Parameter:
     - data (bytes): The data to be compressed.
-    - dictionary_size (int): The desired dictionary size.
+    - dictionary_size (int): The desired dictionary size. Defaults to 65536.
 
     Returns:
     - bytes: Compressed data as bytes.
@@ -83,7 +83,7 @@ def lzw_decompress(compressed_data, dictionary_size=65536):
 
     Parameter:
     - compressed_data (bytes): Compressed data as bytes.
-    - dictionary_size (int): The desired dictionary size.
+    - dictionary_size (int): The desired dictionary size. Defaults to 65536.
 
     Returns:
     - bytes: The decompressed data.

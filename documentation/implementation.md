@@ -22,7 +22,7 @@ To run the application, refer to the README on the front page.
 - Huffman tree is built from character frequencies, using a priority queue (minheap) to position less frequent characters at the bottom.
 - Huffman codes are generated based on tree positions, assigning shorter codes to more frequent characters.
 - Characters are replaced with their corresponding Huffman codes for compression.
-- Compressed data is padded with zeros to make it a multiple of 8 bits. The number of padding bits is stored as the first byte (leftmost) of the compressed data.
+- Compressed data is padded with zeros on the left side to make it a multiple of 8 bits if necessary. The number of padding bits is stored separately and used during decompression.
 - Decompression is done by traversing the Huffman tree using the Huffman codes, starting from the root and moving left for '0' and right for '1', until a terminal leaf node is reached.
 - Time complexity for Huffman algorithm is O(n log n) where n is the size of the data. Building the Huffman tree takes O(n log n), while encoding and decoding takes O(n). Although encoding and decoding are linear, the tree building step dominates, making the overall time complexity O(n log n).
 
@@ -42,7 +42,7 @@ The final output will be a set of variable length codes that correspond to the p
 - Dictionary is initialised with all possible single byte sequences and their corresponding codes.
 - Data is compressed by replacing the longest matching sequence in the dictionary with its code.
 - Dictionary is then updated with the found sequence concatenated with the next character in the data. This process is repeated.
-- Compressed data is padded with zeros to make it a multiple of 8 bits. The number of padding bits is stored as the first byte (leftmost) of the compressed data.
+- Compressed data is padded with zeros on the left side to make it a multiple of 8 bits if necessary. The number of padding bits is stored separately and used during decompression.
 - Decompression involves updating the dictionary with new sequences found using the codes.
 - Time complexity of LZW compression and decompression is O(n), where n is the size of the data.
 
@@ -61,8 +61,8 @@ The data structure of the compression (or rather how the dictionary might look l
 The final output will be a sequence of codes. The exact sequence of codes will depend on the bit length used to represent each code. Sequences are added to the dictionary such that the longest matching sequence in the data is replaced with its corresponding code, resulting in more efficient compression for repeating sequences.
 
 ### Utility functions
-- bits_to_bytes function converts a string of bits to a bytearray, padding with zeros if necessary. It returns the number of padding bits and the bytearray.
-- bytes_to_bits function converts a bytearray back to the original bit string, removing any padding bits.
+- bits_to_bytes function converts a string of bits to a bytearray, padding with zeros on the left side if necessary. It returns the number of padding bits and the bytearray as separate values.
+- bytes_to_bits function converts a bytearray back to the original bit string, removing any padding bits from the left side.
 
 ## Performance Metrics
 
@@ -91,7 +91,7 @@ English Kalevala text (from https://www.gutenberg.org/files/5186/5186-h/5186-h.h
 
 ### Results for English Kalevala text
 
-English Kalevala text (from https://www.gutenberg.org/files/5186/5186-h/5186-h.htm) was redacted or repeated to achieve the desired file size for comparison testing betweem Huffman and LZW algorithms.
+English Kalevala text (from https://www.gutenberg.org/files/5186/5186-h/5186-h.htm) was redacted or repeated to achieve the desired file size for comparison testing between Huffman and LZW algorithms.
 
 | Kalevala text (bytes) | Huffman reduction (percent) | LZW reduction (percent) | Huffman file size (bytes) | LZW file size (bytes) |
 |---|---|---|---|---|
