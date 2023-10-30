@@ -1,5 +1,5 @@
 def calculate_efficiency(original_size, compressed_size):
-    """Calculate the compression efficiency as percentage of the amount 
+    """Calculate the compression efficiency as percentage of the amount
     compressed.
 
     Parameters:
@@ -43,7 +43,7 @@ def bits_to_bytes(bit_string):
 
 
 def bytes_to_bits(no_of_padding_bits, byte_array):
-    """Convert bytearray back to the original bit string, reversing the process 
+    """Convert bytearray back to the original bit string, reversing the process
     in bits_to_bytes.
 
     Parameters:

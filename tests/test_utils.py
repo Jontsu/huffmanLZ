@@ -10,22 +10,28 @@ class TestUtilityFunctions(unittest.TestCase):
         original_size = 10
         compressed_size = 5
         expected_efficiency_percent = 50
-        calculated_efficiency_percent = calculate_efficiency(original_size, compressed_size)
-        self.assertEqual(calculated_efficiency_percent, expected_efficiency_percent)
+        calculated_efficiency_percent = calculate_efficiency(
+            original_size, compressed_size)
+        self.assertEqual(calculated_efficiency_percent,
+                         expected_efficiency_percent)
 
     def test_efficiency_calculation_with_no_compression(self):
         original_size = 5
         compressed_size = 5
         expected_efficiency_percent = 0.0
-        calculated_efficiency_percent = calculate_efficiency(original_size, compressed_size)
-        self.assertEqual(calculated_efficiency_percent, expected_efficiency_percent)
+        calculated_efficiency_percent = calculate_efficiency(
+            original_size, compressed_size)
+        self.assertEqual(calculated_efficiency_percent,
+                         expected_efficiency_percent)
 
     def test_efficiency_calculation_with_negative_compression(self):
         original_size = 5
         compressed_size = 10
         expected_efficiency_percent = -100
-        calculated_efficiency_percent = calculate_efficiency(original_size, compressed_size)
-        self.assertEqual(calculated_efficiency_percent, expected_efficiency_percent)        
+        calculated_efficiency_percent = calculate_efficiency(
+            original_size, compressed_size)
+        self.assertEqual(calculated_efficiency_percent,
+                         expected_efficiency_percent)
 
     def test_bits_to_bytes_without_padding(self):
         bit_string = "01010101"
@@ -50,6 +56,7 @@ class TestUtilityFunctions(unittest.TestCase):
         byte_array = bytearray([85])
         bit_string = bytes_to_bits(no_of_padding_bits, byte_array)
         self.assertEqual(bit_string, "1010101")
+
 
 if __name__ == "__main__":
     unittest.main()

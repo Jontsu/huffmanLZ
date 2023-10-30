@@ -68,7 +68,7 @@ def register_routes(app, cov):
                     f.write(lzw_compressed)
 
                 # Decompress the compressed files for integrity check
-                huffman_decompressed = huffman_decompress(huffman_compressed, 
+                huffman_decompressed = huffman_decompress(huffman_compressed,
                                                           huffman_codes)
                 # lzw allows defining dictionary size, defaults to 65536
                 lzw_decompressed = lzw_decompress(lzw_compressed, 65536)
@@ -83,10 +83,10 @@ def register_routes(app, cov):
                 lzw_compressed_size = getsize(lzw_filepath)
 
                 # Calculate how efficiently the algorimths compressed the files
-                huffman_efficiency = calculate_efficiency(original_size,
-                                                          huffman_compressed_size)
-                lzw_efficiency = calculate_efficiency(original_size,
-                                                      lzw_compressed_size)
+                huffman_efficiency = calculate_efficiency(
+                    original_size, huffman_compressed_size)
+                lzw_efficiency = calculate_efficiency(
+                    original_size, lzw_compressed_size)
 
                 results = {
                     'huffman_integrity': huffman_integrity,
@@ -101,7 +101,7 @@ def register_routes(app, cov):
                 error = f"Error occurred: {str(e)}"
 
         return render_template('index.html', error=error, results=results)
-    
+
     @app.route('/coverage')
     def test_coverage_route():
         # Run unit tests
@@ -115,4 +115,3 @@ def register_routes(app, cov):
         cov.save()
         cov.html_report()
         return send_from_directory('htmlcov', 'index.html')
-        

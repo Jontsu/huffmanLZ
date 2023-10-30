@@ -9,7 +9,7 @@ class Node:
         """Initialise a node with character and its frequency.
 
         Parameters:
-        - char (char or None): The character the node represents, 
+        - char (char or None): The character the node represents,
           as a single byte sequence, or 'None' for merged nodes.
         - freq (int): The frequency of the character in the data.
         """
@@ -51,8 +51,8 @@ def build_huffman_tree(data):
 
 
 def generate_huffman_codes(node, code, codes):
-    """Recursively generate codes for characters by traversing the 
-    Huffman tree. These are variable length codes assigned to input 
+    """Recursively generate codes for characters by traversing the
+    Huffman tree. These are variable length codes assigned to input
     characters, with shorter codes assigned to more frequent characters.
 
     Parameters:

@@ -1,6 +1,8 @@
 import unittest
 
-from src.huffman import Node, build_huffman_tree, generate_huffman_codes, huffman_compress, huffman_decompress
+from src.huffman import (
+    Node, build_huffman_tree, generate_huffman_codes,
+    huffman_compress, huffman_decompress)
 
 
 class TestHuffmanAlgorithm(unittest.TestCase):
@@ -58,7 +60,8 @@ class TestHuffmanAlgorithm(unittest.TestCase):
         data = b"Testing algos! 1234567890 @#$%^&*()_+[]{}|;:',.<>/?`~"
         compressed_data, codes = huffman_compress(data)
         decompressed_data = huffman_decompress(compressed_data, codes)
-        self.assertEqual(data, decompressed_data)        
+        self.assertEqual(data, decompressed_data)
+
 
 if __name__ == '__main__':
     unittest.main()
