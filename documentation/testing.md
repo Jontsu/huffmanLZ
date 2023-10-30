@@ -2,9 +2,9 @@
 
 Test and branch coverage stands at 100%.
 
-Unit tests have been implemeneted using Python's unittest unit testing framework. Test coverage and branch coverage has been implemented using Python's coverage package. I have only written tests for the files that relate to the algorithms. I have not written tests for files that relate to the UI.
+Unit tests have been implemented using Python's 'unittest' framework. Test and branch coverage has been measured using Python's 'coverage' package. Tests have been written for files related to the algorithms, but not for files related to the UI or routes.
 
-Unit tests and test coverage can be ran from terminal with commands
+To run the tests and generate a test coverage report, use the following commands in the terminal:
 
 ```bash
 coverage run -m unittest discover
@@ -13,7 +13,7 @@ coverage html
 
 ![Test coverage](graph/testcoverage.png)
 
-Unit tests and branch coverage can be ran from terminal with commands
+To run the tests and generate a branch coverage report, use the following commands in the terminal:
 
 ```bash
 coverage run --branch -m unittest discover

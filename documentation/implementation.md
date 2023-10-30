@@ -1,129 +1,126 @@
 # Implementation
-This application is an implementation of Huffman and Lempel-Ziv-Welch (LZW) data compression algorithms.
+This application implements Huffman and Lempel-Ziv-Welch (LZW) data compression algorithms.
 
 ## UI
-- The application features a simple user interface built with Python Flask.
-- Users can upload  files through a "Choose File" button, followed by pressing the "Upload" button to proceed with the upload.
-- Performance tests are ran alongside the compression process, which is initiated by clicking the "Compress File" button.
-- Performance statistics such as efficiency and integrity checks are displayed at the homepage of the application.
-- Test coverage statistics are also displayed at the homepage of the application.
+- The application has a simple user interface built with Python Flask.
+- Users can upload files using the "Choose File" and "Upload" buttons.
+- Compression performance tests run during the compression process, initiated by the "Compress File" button.
+- Efficiency (size reduction calculated as 1 - compressed file size / original file size) and integrity checks (decompressed data matches original data) are displayed on the homepage.
 
-To run the application, please refer to the instructions provided in the README on the front page.
+To run the application, refer to the README on the front page.
 
 ![UI](graph/UI.png)
 
 ## File Handling
-- "assets" folder serves as the storage location for both uploaded and compressed files.
-- During compression process, uploaded files are processed and read in byte format.
+- The "assets" folder stores uploaded and compressed files.
+- Files are processed in byte format during compression.
 
 ## Compression Algorithms
 
 ### Huffman Algorithm
 
-- Huffman tree is built based on the frequency of characters in the data, using a priority queue to ensure that the least frequent characters are at the bottom of the tree.
-- Huffman codes are then generated for each character based on their position in the tree, with shorter codes assigned to more frequent characters.
-- Data is then compressed by replacing each character with its corresponding Huffman code.
-- Compressed data is padded with zeros to ensure it is a multiple of 8 bits and the number of padding bits is stored as the first byte of the compressed data.
-- Decompression is done by traversing the Huffman tree using the Huffman codes, starting from the root and moving left for '0' and right for '1', until a terminal node is reached.
-- Time complexity for Huffman algorithm is O(n log n) where n is the size of the data. Building the Huffman tree takes O(nlogn), while encoding and decoding takes O(n). Although encoding and decoding are linear, the tree building step dominates, making the overall time complexity O(n log n), which is worse than linear time complexity.
+- Huffman tree is built from character frequencies, using a priority queue (minheap) to position less frequent characters at the bottom.
+- Huffman codes are generated based on tree positions, assigning shorter codes to more frequent characters.
+- Characters are replaced with their corresponding Huffman codes for compression.
+- Compressed data is padded with zeros to make it a multiple of 8 bits. The number of padding bits is stored as the first byte (leftmost) of the compressed data.
+- Decompression is done by traversing the Huffman tree using the Huffman codes, starting from the root and moving left for '0' and right for '1', until a terminal leaf node is reached.
+- Time complexity for Huffman algorithm is O(n log n) where n is the size of the data. Building the Huffman tree takes O(n log n), while encoding and decoding takes O(n). Although encoding and decoding are linear, the tree building step dominates, making the overall time complexity O(n log n).
+
+The data structure of the compression (or rather how the Huffman tree might look like) is illustrated below for an input data 'abc'.
 
 ```bash
        (root)
       /      \
     'a'      (node)
            /      \
-         'b'      (node)
-               /      \
-             'c'      'd'
+         'b'      'c'
 ```
-Here 'a' is the character with highest frequency and 'd' is the character with lowest frequency. The Huffman codes for each character would be:
-- 'a': 0
-- 'b': 10
-- 'c': 110
-- 'd': 111
+The final output will be a set of variable length codes that correspond to the paths from the root to each character in the tree. Characters are placed in the tree such that the path from the root to a character is shorter for characters with higher frequency and longer for characters with lower frequency. 
 
 ### LZW Algorithm
 
 - Dictionary is initialised with all possible single byte sequences and their corresponding codes.
-- Data is then compressed by finding the longest sequence in the dictionary that matches the data, replacing it with its corresponding code.
-- Dictionary is then updated with the found sequence concatenated with the next character in the data. This process is then repeated.
-- Compressed data is padded with zeros to ensure it is a multiple of 8 bits and the number of padding bits is stored as the first byte of the compressed data.
-- Decompression is done by traversing the dictionary using the codes, updating the dictionary with new sequences as they are found.
-- Time complexity of LZW compression and decompression is O(n), where n is the size of the data. In other words the time complexity is linear.
+- Data is compressed by replacing the longest matching sequence in the dictionary with its code.
+- Dictionary is then updated with the found sequence concatenated with the next character in the data. This process is repeated.
+- Compressed data is padded with zeros to make it a multiple of 8 bits. The number of padding bits is stored as the first byte (leftmost) of the compressed data.
+- Decompression involves updating the dictionary with new sequences found using the codes.
+- Time complexity of LZW compression and decompression is O(n), where n is the size of the data.
+
+The data structure of the compression (or rather how the dictionary might look like) is illustrated below for an input data 'abc'.
 
 ```bash
-       (root)
-      /      \
-    'A'      (node)
-           /      \
-         'B'      (node)
-               /      \
-             'AB'      'C'
-```
+| Sequence | Code |
+|----------|------|
+| 'a'      | 97   |
+| 'b'      | 98   |
+| 'c'      | 99   |
+| 'ab'     | 100  |
+| 'bc'     | 101  |
+``` 
 
-Here 'A', 'B', and 'C' are individual characters and 'AB' is a sequence of characters. Each node is associated with a unique code. During compression, if the sequence 'AB' appears in the input data, it would be replaced with its corresponding code from the dictionary.
+The final output will be a sequence of codes. The exact sequence of codes will depend on the bit length used to represent each code. Sequences are added to the dictionary such that the longest matching sequence in the data is replaced with its corresponding code, resulting in more efficient compression for repeating sequences.
 
 ### Utility functions
 - bits_to_bytes function converts a string of bits to a bytearray, padding with zeros if necessary. It returns the number of padding bits and the bytearray.
-- bytes_to_bits function converts a bytearray back to the original bit string removing any padding bits.
+- bytes_to_bits function converts a bytearray back to the original bit string, removing any padding bits.
 
 ## Performance Metrics
 
 - The application calculates and displays performance metrics for both compression algorithms:
   - Integrity checks verify that the decompressed data matches the original data.
-  - Compression efficiency is calculated as a percentage. Compression efficiency is calculated as 1 - compressed file size / original file size.
+  - Compression efficiency is calculated as file size reduction percentage. Compression efficiency is calculated as 1 - compressed file size / original file size.
 
-### Results for repeating text
+### Results for LZW performance with different dictionary sizes
 
-| Repeating text (bytes) | Huffman efficiency (percent) | LZW efficiency (percent) | Huffman file size (bytes) | LZW file size  (bytes) |
+English Kalevala text (from https://www.gutenberg.org/files/5186/5186-h/5186-h.htm) was used to test LZW performance with varying dictionary sizes. Optimal performance was observed with a dictionary size of 65 536 (2^16). Common dictionary sizes range from 4 096 to 32 768, with 4 096 often used in educational materials.
+
+| LZW dictionary sizes | input size (bytes) | LZW encoded size (bytes) | encoded / input (ratio) | size reduction (percent) |
 |---|---|---|---|---|
-| 500 | 25,20 % | 34,40 % | 374 | 328 |
-| 1 024 | 25,29 % | 52,15 % | 765 | 490 |
-| 2 048 | 25,34 % | 65,28 % | 1 529 | 711 |
-| 4 096 | 25,37 % | 74,95 % | 3 057 | 1 026 |
-| 8 192 | 25,39 % | 82,09 % | 6 112 | 1 467 |
-| 16 384 | 25,40 % | 87,22 % | 12 223 | 2 094 |
-| 65 536 | 25,40 % | 93,54 % | 48 889 | 4 231 |
-| 262 144 | 25,40 % | 96,50 % | 195 552 | 9 180 |
-| 1 048 576 | 25,40 % | 97,31 % | 782 205 | 28 207 |
-| 4 194 304 | 25,40 % | 97,51 % | 3 128 817 | 104 313 |
-| 16 777 216 | 25,40 % | 97,56 % | 12 515 263 | 408 738 |
+| 512 | 811 636 | 547 201 | 0.67 | 32.6 % |
+| 1 024 | 811 636 | 495 654 | 0.61 | 38.9 % |
+| 2 048 | 811 636 | 464 868 | 0.57 | 42.7 % |
+| 4 096 | 811 636 | 449 049 | 0.55 | 44.7 % |
+| 8 192 | 811 636 | 406 628 | 0.50 | 49.9 % |
+| 16 384 | 811 636 | 390 673 | 0.48 | 51.9 % |
+| 32 768 | 811 636 | 334 888 | 0.41 | 58.7 % |
+| 65 536 | 811 636 | 314 305 | 0.39 | 61.3 % |
+| 131 072 | 811 636 | 314 669 | 0.39 | 61.2 % |
+| 262 144 | 811 636 | 332 286 | 0.41 | 59.1 % |
 
-![Huffman and LZW repeating text](graph/repeating.png)
+![LZW with varying dictionary sizes](graph/dictionarysizes.png)
 
-Repeating text repeates ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890. 
+### Results for English Kalevala text
 
-Huffman algorithm consistently achieves compression efficiency around 25%. This is expected given its design, as it assigns shorter codes to more frequent bytes, thus handling the compression fairly uniformly regardless of the file size.
+English Kalevala text (from https://www.gutenberg.org/files/5186/5186-h/5186-h.htm) was redacted or repeated to achieve the desired file size for comparison testing betweem Huffman and LZW algorithms.
 
-LZW compression efficiency increases with the file size with repeating text. The algorithm replaces repeated sequences with shorter codes and more repeating sequences results in better compression. This is reflected in the results, where LZW efficiency increases from ~34% for 500 byte text to ~98% for over 16,8MB text.
-
-LZW has better efficiency for repeating text as expected, outperforming Huffman in compression efficiency especially in larger file sizes.
-
-# Results for random text
-
-| Random text (bytes) | Huffman efficiency (percent) | LZW efficiency (percent) | Huffman file size (bytes) | LZW file size  (bytes) |
+| Kalevala text (bytes) | Huffman reduction (percent) | LZW reduction (percent) | Huffman file size (bytes) | LZW file size (bytes) |
 |---|---|---|---|---|
-| 500 | 25,80 % | -42,80 % | 371 | 714 |
-| 1 024 | 25,68 % | -36,23 % | 761 | 1 395 |
-| 2 048 | 25,49 % | -25,83 % | 1 526 | 2 577 |
-| 4 096 | 25,49 % | -14,11 % | 3 052 | 4 674 |
-| 8 192 | 25,45 % | -3,60 % | 6 107 | 8 487 |
-| 16 384 | 25,45 % | 2,06 % | 12 214 | 16 047 |
-| 65 536 | 25,44 % | 6,86 % | 48 865 | 61 042 |
-| 262 144 | 25,41 % | 7,81 % | 195 522 | 241 675 |
-| 1 048 576 | 25,41 % | 8,40 % | 782 138 | 960 484 |
-| 4 194 304 | 25,41 % | 8,70 % | 3 128 685 | 3 829 435 |
-| 16 777 216 | 25,40 % | 8,57 % | 12 515 006 | 15 338 631 |
+| 512 | 44.34 % | -27.93 % | 285 | 655 |
+| 1 024 | 43.75 % | -14.36 % | 576 | 1 171 |
+| 2 050 | 44.39 % | 0.73 % | 1 140 | 2 035 |
+| 4 110 | 44.28 % | 12.34 % | 2 290 | 3 603 |
+| 8 212 | 44.85 % | 23.61 % | 4 529 | 6 273 |
+| 16 486 | 44.47 % | 32.08 % | 9 155 | 11 197 |
+| 65 924 | 43.70 % | 44.26 % | 37 118 | 36 749 |
+| 264 259 | 42.26 % | 55.88 % | 152 595 | 116 603 |
+| 1 057 969 | 42.03 % | 62.04 % | 613 263 | 401 557 |
+| 4 232 801 | 41.99 % | 63.66 % | 2 455 589 | 1 538 385 |
+| 16 932 387 | 41.97 % | 64.10 % | 9 826 080 | 6 078 461 |
 
-![Huffman and LZW random text](graph/random.png)
+![Huffman and LZW comparison with English Kalevala text](graph/comparison.png)
 
-Random text was generated with Python random module. 
+Huffman algorithm performs well with smaller file sizes, as expected, given that it assigns shorter codes to more frequently occurring characters. However, as the text size increases and character frequencies become more uniform, the Huffman compression efficiency decreases.
 
-Huffman compression efficiency is similar to the repeating text as expected, given that Huffman does not require patterns or structure in the data to be effective. The algorithm compression efficiency is uniform around 25% across all file sizes even with random text.
+LZW algorithm's efficiency increases with the file size, as it replaces repeated sequences with shorter codes. The more repeating sequences there are, the better the compression. This is reflected in the results, where LZW efficiency increases from negative ~28% for 512 byte text to ~64% for over 16.9 MB text. LZW outperforms Huffman in compression efficiency, especially for larger file sizes.
 
-LZW compression efficiency is poor with random text as expected, given that the algorithm looks to find and replace repeating sequences from the data to achieve compression. The algorithm struggles to find opportunities for compression, as the data does not have patterns or structure. In fact, with file sizes of less than 16KB the compressed output is larger than the original input. Even after this with larger file sizes the compression efficiency is low and seems to plateau around 8.5%.
+Huffman performs better for smaller file sizes, while LZW is more efficient for larger file sizes. It is worth noting that LZW can perform poorly if the data lacks patterns or structure, as illustrated below with four random text examples. Therefore, it seems that Huffman is a more versatile option for data compression with varying file sizes or levels of randomness and structure in the data. LZW on the other hand is a better option when there is certainty on the suitability of the data structure and file sizes. However, it is important to note that LZW can still perform better than Huffman in some of these cases too.
 
-Huffman therefore seems as more versatile option for data compression with varying levels of randomness and structure in the data.
+| Random text (bytes) | Huffman reduction (percent) | LZW reduction (percent) | Huffman file size (bytes) | LZW file size (bytes) |
+|---|---|---|---|---|
+| 65 536 | 25,44 % | -3,03 % | 48 865 | 67 521 |
+| 1 048 576 | 25,41 % | 9,21 % | 782 138 | 951 991 |
+| 4 194 304 | 25,41 % | 9,99 % | 3 128 685 | 3 775 339 |
+| 16 777 216 | 25,40 % | 10,16 % | 12 515 006 | 15 072 757 |
 
 ## LLM Usage
 

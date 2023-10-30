@@ -10,7 +10,7 @@
 - Both are lossless compression techniques
 - Huffman compresses data by assigning prefix codes to frequently used characters based on their occurrence using a binary tree
 - Huffman time complexity is O(n log n) with its basic implementation and needs memory to store a tree structure that grows linearly with the size of the input
-- Lempel-Ziv compresses data by referencing earlier sequences and building a dictionary that captures recurring patterns in the input, particular version of the Lempel-Ziv used is LZW. LZW replaces repeating sequences with a single code that references the dictionary.
+- Lempel-Ziv compresses data by referencing earlier sequences and building a dictionary that captures recurring patterns in the input, particular version of the Lempel-Ziv used is Lempel-Ziv-Welch (LZW). LZW replaces repeating sequences with a single code that references the dictionary.
 - LZW time complexity is linear or slighly more and needs memory to store a dictionary that generally grows linearly with the size of the input until the dictionary is full
 
 ## Reviewed material
