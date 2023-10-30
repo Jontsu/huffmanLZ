@@ -9,7 +9,8 @@ class Node:
         """Initialise a node with character and its frequency.
 
         Parameters:
-        - char (char): The character the node represents.
+        - char (char or None): The character the node represents, 
+          as a single byte sequence, or 'None' for merged nodes.
         - freq (int): The frequency of the character in the data.
         """
         self.char = char
@@ -25,7 +26,8 @@ class Node:
 
 
 def build_huffman_tree(data):
-    """Build and return the Huffman Tree based on data frequencies.
+    """Build and return the Huffman Tree based on data frequencies,
+    using min-heap to merge nodes with the lowest frequencies first.
 
     Parameter:
     - data (bytes): The data to build the tree from.
@@ -49,7 +51,9 @@ def build_huffman_tree(data):
 
 
 def generate_huffman_codes(node, code, codes):
-    """Recursively generate Huffman codes for characters.
+    """Recursively generate codes for characters by traversing the 
+    Huffman tree. These are variable length codes assigned to input 
+    characters, with shorter codes assigned to more frequent characters.
 
     Parameters:
     - node (Node): The current node.
@@ -57,9 +61,6 @@ def generate_huffman_codes(node, code, codes):
     - codes (dict): The dictionary to store the generated codes.
     """
 
-    # Check for non-existent branch
-    if node is None:
-        return
     # Handle special case where the Huffman tree has only one node
     # (data has only one unique character)
     if node.char and len(node.char) == 1 and not code:

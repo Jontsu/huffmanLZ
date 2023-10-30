@@ -1,26 +1,21 @@
 def calculate_efficiency(original_size, compressed_size):
-    """Calculate the compression efficiency based on the original and
-    compressed data sizes.
+    """Calculate the compression efficiency as percentage of the amount 
+    compressed.
 
     Parameters:
-    - original_data (int): The size of the data before compression.
-    - compressed_data (int): The size of the data after compression.
+    - original_size (int): The size of the data before compression.
+    - compressed_size (int): The size of the data after compression.
 
     Returns:
     float: The compression efficiency as a percentage.
     """
-    # Handle case where original data is empty
-    if original_size == 0:
-        return 0.0
-
-    # Calculate the compression efficiency based on file size
     efficiency = ((1 - compressed_size / original_size) * 100)
     return efficiency
 
 
 def bits_to_bytes(bit_string):
     """Convert string of bits to bytearray. If the bit string length is not
-    a multiple of 8, pad with zeros at the beginning of the bit string
+    a multiple of 8, pad with zeros on the left side of the bit string
     prior to byte conversion.
 
     Parameters:
@@ -48,8 +43,8 @@ def bits_to_bytes(bit_string):
 
 
 def bytes_to_bits(no_of_padding_bits, byte_array):
-    """Convert bytearray back to the original bit string, reversing the
-    byte conversion process in bits_to_bytes.
+    """Convert bytearray back to the original bit string, reversing the process 
+    in bits_to_bytes.
 
     Parameters:
     - no_of_padding_bits (int): Number of padding bits added during conversion.
